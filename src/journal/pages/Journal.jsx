@@ -1,12 +1,14 @@
-import { MailOutline } from "@mui/icons-material";
-import { Typography } from "@mui/material";
+// import { Typography } from "@mui/material";
+import { JournalLayout } from "../layout";
+import { NoteView } from "../views";
 
 export const Journal = () => {
   return (
-    <>
-      <Typography variant="h1">Journal</Typography>
-      <MailOutline />
-      <hr />
-    </>
+    <JournalLayout>
+      {/* <NothingSelected /> */}
+
+      <NoteView />
+      {/* NotePage */}
+    </JournalLayout>
   );
 };
