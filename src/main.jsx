@@ -1,14 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { JournalRouter } from "./JournalRouter";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 
-import "./styles.css";
+import { JournalRouter } from './JournalRouter'
+import { store } from './context/store'
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+import './styles.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <JournalRouter />
-    </BrowserRouter>
-  </React.StrictMode>
-);
+    <Provider store={store}>
+      <BrowserRouter>
+        <JournalRouter />
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>,
+)
