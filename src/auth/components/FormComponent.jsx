@@ -1,34 +1,55 @@
 import { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import { Google } from '@mui/icons-material'
 import { useForm } from '../../hooks'
-import { useLogin } from '../hooks'
 import { Box } from '@mui/system'
+import { checkingAuthentication, startGoogleSignIn } from '../../context/auth'
 
 export const FormComponent = ({ isRegister = true }) => {
-  const formData = {
-    email: '',
-    password: '',
-    fullName: '',
-  }
+  let formData
+  let formValidations
 
   const MIN_PASS_LENGTH = 12
   const MIN_NAME_LENGTH = 2
 
-  const formValidations = {
-    email: [(value) => value.includes('@'), 'El correo debe de tener una @'],
-    password: [
-      (pass) => pass.length >= MIN_PASS_LENGTH,
-      `La contraseña debe de tener mas de ${MIN_PASS_LENGTH} letras`,
-    ],
-    fullName: [
-      (name) => name.length >= MIN_NAME_LENGTH,
-      `El nombre debe de tener mas de ${MIN_NAME_LENGTH} letras`,
-    ],
+  if (isRegister) {
+    formData = {
+      email: '',
+      password: '',
+      fullName: '',
+    }
+  } else {
+    formData = {
+      email: '',
+      password: '',
+    }
   }
 
-  let {
+  if (isRegister) {
+    formValidations = {
+      email: [(value) => value.includes('@'), 'El correo debe de tener una @'],
+      password: [
+        (pass) => pass.length >= MIN_PASS_LENGTH,
+        `La contraseña debe de tener mas de ${MIN_PASS_LENGTH} letras`,
+      ],
+      fullName: [
+        (name) => name.length >= MIN_NAME_LENGTH,
+        `El nombre debe de tener mas de ${MIN_NAME_LENGTH} letras`,
+      ],
+    }
+  } else {
+    formValidations = {
+      email: [(value) => value.includes('@'), 'El correo debe de tener una @'],
+      password: [
+        (pass) => pass.length >= MIN_PASS_LENGTH,
+        `La contraseña debe de tener mas de ${MIN_PASS_LENGTH} letras`,
+      ],
+    }
+  }
+
+  const {
     passwordValid,
     emailValid,
     fullNameValid,
@@ -41,10 +62,28 @@ export const FormComponent = ({ isRegister = true }) => {
 
   const { status } = useSelector((state) => state.auth)
   const isAuthenticated = useMemo(() => status === 'checking', [status])
-  const { onGoogleSignIn, onSubmit } = useLogin()
 
-  if (isRegister === false) {
-    isFormValid = !emailValid && !passwordValid
+  const [formSubmited, setFormSubmited] = useState(false)
+
+  const dispatch = useDispatch()
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+
+    setFormSubmited(true)
+
+    if (!isFormValid) return
+
+    dispatch(
+      checkingAuthentication({
+        email,
+        password,
+      }),
+    )
+  }
+
+  const onGoogleSignIn = () => {
+    dispatch(startGoogleSignIn())
   }
 
   return (
@@ -79,7 +118,7 @@ export const FormComponent = ({ isRegister = true }) => {
                 value={fullName}
                 onChange={onInputChange}
                 sx={{ mb: 1 }}
-                error={!!fullNameValid}
+                error={!!fullNameValid && formSubmited}
                 helperText={fullNameValid}
               />
             </Grid>
@@ -93,7 +132,7 @@ export const FormComponent = ({ isRegister = true }) => {
               fullWidth
               name='email'
               value={email}
-              error={!!emailValid}
+              error={!!emailValid && formSubmited}
               helperText={emailValid}
               onChange={onInputChange}
               sx={{ mb: 1 }}
@@ -107,7 +146,7 @@ export const FormComponent = ({ isRegister = true }) => {
               placeholder='1q2w3e4r5t6y'
               name='password'
               value={password}
-              error={!!passwordValid}
+              error={!!passwordValid && formSubmited}
               helperText={passwordValid}
               onChange={onInputChange}
               fullWidth
@@ -129,7 +168,7 @@ export const FormComponent = ({ isRegister = true }) => {
             </Grid>
             <Grid xs={12} sm={6} item>
               <Button
-                disabled={isAuthenticated}
+                disabled={isAuthenticated && formSubmited}
                 onClick={onGoogleSignIn}
                 fullWidth
                 variant='contained'>

@@ -1,8 +1,12 @@
+import { FormComponent } from '../components'
+import { AuthLayout } from '../layout'
+
 export const Register = () => {
   return (
-    <>
-      <h1>Register</h1>
-      <hr/>
-    </>
+    <AuthLayout
+      title='Create account'
+      children={<FormComponent isRegister={true} />}
+      isRegister={true}
+    />
   )
 }
