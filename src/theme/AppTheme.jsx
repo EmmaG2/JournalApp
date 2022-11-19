@@ -1,6 +1,6 @@
-import { ThemeProvider } from "@emotion/react";
-import { CssBaseline } from "@mui/material";
-import { purpleTheme } from "./index";
+import { ThemeProvider } from '@emotion/react'
+import { CssBaseline } from '@mui/material'
+import { purpleTheme } from './index'
 
 export const AppTheme = ({ children }) => {
   return (
@@ -9,5 +9,5 @@ export const AppTheme = ({ children }) => {
 
       {children}
     </ThemeProvider>
-  );
-};
+  )
+}
