@@ -1,1 +1,1 @@
-export * from "./JournalLayout";
+export * from './JournalLayout'

@@ -1,4 +1,4 @@
-import { TurnedInNot } from "@mui/icons-material";
+import { TurnedInNot } from '@mui/icons-material'
 import {
   Divider,
   Drawer,
@@ -10,28 +10,33 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-} from "@mui/material";
-import { Box } from "@mui/system";
+} from '@mui/material'
+import { Box } from '@mui/system'
 
 export const SideBar = ({ drawerWidth }) => {
   return (
     <Box
-      component={"nav"}
+      component={'nav'}
       sx={{
         width: { sm: drawerWidth },
         flexShrink: { sm: 0 },
-      }}
-    >
+        transform: {
+          xs: `translateX(-${drawerWidth}px)`,
+          sm: 'translateX(0)',
+        },
+      }}>
       <Drawer
-        variant="permanent"
+        variant='permanent'
         open
         sx={{
-          display: { xs: "block" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
-        }}
-      >
+          // transform: {
+          //   xs: `translateX(-${drawerWidth}px)`,
+          //   sm: 'translateX(0)',
+          // },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+        }}>
         <Toolbar>
-          <Typography variant="h6" noWrap componnt="h1">
+          <Typography variant='h6' noWrap componnt='h1'>
             Emma ❤
           </Typography>
         </Toolbar>
@@ -39,23 +44,10 @@ export const SideBar = ({ drawerWidth }) => {
         <Divider />
 
         <List>
-          {[
-            "enero",
-            "febrero",
-            "marzo",
-            "abril",
-            "mayo",
-            "junio",
-            "julio",
-            "agosto",
-            "septiembre",
-            "octubre",
-            "noviembre",
-            "diciembre",
-          ]
+          {days
             .map(
               (month) =>
-                month.charAt(0).toUpperCase() + month.slice(1).toLowerCase()
+                month.charAt(0).toUpperCase() + month.slice(1).toLowerCase(),
             )
             .map((month, i) => (
               <ListItem key={i} disablePadding>
@@ -67,8 +59,7 @@ export const SideBar = ({ drawerWidth }) => {
                   <Grid container>
                     <ListItemText
                       primary={month}
-                      secondary={"Lorem Ipsum Dolor Sit Asimet"}
-                    ></ListItemText>
+                      secondary={'Lorem Ipsum Dolor Sit Asimet'}></ListItemText>
                   </Grid>
                 </ListItemButton>
               </ListItem>
@@ -76,5 +67,20 @@ export const SideBar = ({ drawerWidth }) => {
         </List>
       </Drawer>
     </Box>
-  );
-};
+  )
+}
+
+const days = [
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octubre',
+  'noviembre',
+  'diciembre',
+]
